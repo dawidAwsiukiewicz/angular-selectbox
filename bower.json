@@ -1,6 +1,6 @@
 {
   "name": "angularSelectbox",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "http://milica.github.io/angular-selectbox/",
   "authors": [
     "Milica Kadic <milica.kadic.87@gmail.com>"
@@ -14,8 +14,8 @@
     "angularjs"
   ],
   "main": [
-    "dist/angular-selectbox.js",
-    "dist/angular-selectbox.css"
+    "src/angular-selectbox.js",
+    "src/angular-selectbox.css"
   ],
   "license": "MIT",
   "ignore": [

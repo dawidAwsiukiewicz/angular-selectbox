@@ -20,7 +20,7 @@
       '     class="sb-toggle" ' +
       '     ng-click="vm.toggle()" ' +
       '     ng-class="{\'sb-toggle-active\': vm.active}">' +
-      '    {{ vm.selected[vm.labelKey] || vm.value || vm.title }}' +
+      '    {{ vm.selected[vm.labelKey] || vm.value || \'Select\' }}' +
       '  </a>' +
       '  <ul class="sb-dropdown" ng-show="vm.active">' +
       '    <li ' +
@@ -47,7 +47,7 @@
       '     class="sb-toggle" ' +
       '     ng-click="vm.toggle()" ' +
       '     ng-class="{\'sb-toggle-active\': vm.active}">' +
-      '    {{ vm.title }}{{ vm.values.length ? (\': \' + vm.values.length) : vm.title }}' +
+      '    {{ vm.title }}{{ vm.values.length ? (\': \' + vm.values.length) : \'\' }}' +
       '  </a>' +
       '  <ul class="sb-dropdown" ng-show="vm.active">' +
       '    <li ' +
@@ -80,7 +80,6 @@
         value: '=',
         idKey: '@',
         labelKey: '@',
-        title: '@',
         onChange: '&'
       }
     };
@@ -98,7 +97,6 @@
       vm.focus = _defaults.focus;
       vm.idKey = vm.idKey || _defaults.idKey;
       vm.labelKey = vm.labelKey || _defaults.labelKey;
-      vm.title = vm.title || _defaults.title;
 
       _getSelected();
 
@@ -114,19 +112,24 @@
        * @private
        */
       function _getSelected() {
-
-        if (!vm.options.length) { return; }
-
-        if (vm.options[0][vm.idKey]) {
-          for (var i = 0; i < vm.options.length; i += 1) {
-            if (vm.options[i][vm.idKey] === vm.value) {
-              vm.selected = vm.options[i];
-              break;
-            }
+        // todo: improvement!!
+        $scope.$watch(function (newValue, oldValue) {
+          if (!vm.options.length) {
+            return;
           }
-        } else {
-          vm.selected = vm.value;
-        }
+
+          if (vm.options[0][vm.idKey]) {
+            for (var i = 0; i < vm.options.length; i += 1) {
+              if (vm.options[i][vm.idKey] === vm.value) {
+                vm.selected = vm.options[i];
+                break;
+              }
+            }
+          } else {
+            vm.selected = vm.value;
+          }
+        });
+
 
       }
 
@@ -170,7 +173,9 @@
 
         _getSelected();
 
-        if (angular.isDefined(vm.onChange)) { vm.onChange({value: vm.value}); }
+        if (angular.isDefined(vm.onChange)) {
+          vm.onChange({value: vm.value});
+        }
 
       }
 
@@ -185,7 +190,9 @@
 
         var targetId = Selectbox.getId(e.target.parentNode);
 
-        if (formatInstance() === targetId) { return; }
+        if (formatInstance() === targetId) {
+          return;
+        }
 
         toggle();
 
@@ -214,7 +221,9 @@
           return;
         }
 
-        if (e.keyCode !== 40 && e.keyCode !== 38) { return; }
+        if (e.keyCode !== 40 && e.keyCode !== 38) {
+          return;
+        }
 
         $timeout(function () {
           vm.focus = Selectbox.getFocus(vm.focus, min, max, e.keyCode);
@@ -338,7 +347,9 @@
           vm.values.splice(index, 1);
         }
 
-        if (angular.isDefined(vm.onChange)) { vm.onChange({values: vm.values}); }
+        if (angular.isDefined(vm.onChange)) {
+          vm.onChange({values: vm.values});
+        }
 
       }
 
@@ -367,7 +378,9 @@
         var targetId = Selectbox.getId(e.target.parentNode);
         var itemClicked = !targetId && e.target.classList.contains('sb-item-handle');
 
-        if (formatInstance() === targetId || itemClicked) { return; }
+        if (formatInstance() === targetId || itemClicked) {
+          return;
+        }
 
         toggle();
 
@@ -404,7 +417,9 @@
           return;
         }
 
-        if (e.keyCode !== 40 && e.keyCode !== 38) { return; }
+        if (e.keyCode !== 40 && e.keyCode !== 38) {
+          return;
+        }
 
         $timeout(function () {
           vm.focus = Selectbox.getFocus(vm.focus, min, max, e.keyCode);
@@ -443,6 +458,7 @@
     }
 
   }
+
   function Selectbox() {
 
     var _counter = 0;
@@ -451,8 +467,7 @@
       active: false,
       focus: 0,
       idKey: 'id',
-      labelKey: 'label',
-      title: 'Select'
+      labelKey: 'label'
     };
 
     return {

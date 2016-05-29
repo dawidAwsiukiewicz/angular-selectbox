@@ -1,6 +1,6 @@
 {
   "name": "angularSelectbox",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "dependencies": {
     "wrench": "^1.5.8"
   },
