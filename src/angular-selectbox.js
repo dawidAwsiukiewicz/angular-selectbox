@@ -20,7 +20,7 @@
       '     class="sb-toggle" ' +
       '     ng-click="vm.toggle()" ' +
       '     ng-class="{\'sb-toggle-active\': vm.active}">' +
-      '    {{ vm.selected[vm.labelKey] || vm.value || \'Select\' }}' +
+      '    {{ vm.selected[vm.labelKey] || vm.value || vm.label || \'Wybierz\' }}' +
       '  </a>' +
       '  <ul class="sb-dropdown" ng-show="vm.active">' +
       '    <li ' +
@@ -80,7 +80,8 @@
         value: '=',
         idKey: '@',
         labelKey: '@',
-        onChange: '&'
+        onChange: '&',
+        label: '@',
       }
     };
 
